@@ -83,9 +83,9 @@ func printLanguagePercentages() {
 	percentages := make(map[string]float64)
 	for language, count := range languageCount {
 		percentage := (float64(count) / float64(totalFiles))
-		if percentage < 0.1 {
-			continue
-		}
+		// if percentage < 0.1 {
+		// 	continue
+		// }
 		percentages[language] = percentage
 	}
 
