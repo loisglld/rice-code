@@ -20,6 +20,8 @@ env/
 *.swp
 
 mascots/
+mascots_copy/
+icons_copy/
 
 # executables
 bin/

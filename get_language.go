@@ -17,7 +17,8 @@ var languageCount = make(map[string]int)
 var totalFiles int
 
 // List of paths to ignore
-var ignoreList = []string{"node_modules", "vendor"}
+var ignoreList = []string{"node_modules", "vendor", "target"}
+var unwantedLanguages = []string{"text", "markdown"}
 
 // detectLanguage prints the detected language of the file
 func detectLanguage(filePath string) {
@@ -40,7 +41,7 @@ func detectLanguage(filePath string) {
 // shouldIgnore checks if a path should be ignored
 func shouldIgnore(path string) bool {
 	// Ignore hidden files and directories
-	if strings.HasPrefix(filepath.Base(path), ".") {
+	if enry.IsDotFile(path) || enry.IsDocumentation(path) || enry.IsImage(path) {
 		return true
 	}
 	for _, ignore := range ignoreList {
@@ -82,8 +83,18 @@ func walkDirectory(root string) {
 func printLanguagePercentages() {
 	percentages := make(map[string]float64)
 	for language, count := range languageCount {
+		unwanted := false
+		for _, unwantedLanguage := range unwantedLanguages {
+			if strings.ToLower(language) == unwantedLanguage {
+				unwanted = true
+				break
+			}
+		}
+		if unwanted {
+				continue	
+		}
 		percentage := (float64(count) / float64(totalFiles))
-		// if percentage < 0.1 {
+		// if percentage < 0.2 {
 		// 	continue
 		// }
 		percentages[language] = percentage
@@ -132,7 +143,7 @@ func main() {
 	select {
 	case <-done:
 		// Operation completed within the timeout
-	case <-time.After(300 * time.Millisecond): // Wait for 0.3 seconds
+	case <-time.After(3000 * time.Millisecond): // Wait for 0.3 seconds
 		// Timeout reached, terminate the program
 	}
 }
