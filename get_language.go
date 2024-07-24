@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"gopkg.in/src-d/enry.v1"
 )
@@ -38,7 +39,8 @@ func detectLanguage(filePath string) {
 
 // shouldIgnore checks if a path should be ignored
 func shouldIgnore(path string) bool {
-    if strings.HasPrefix(filepath.Base(path), ".") {
+	// Ignore hidden files and directories
+	if strings.HasPrefix(filepath.Base(path), ".") {
 		return true
 	}
 	for _, ignore := range ignoreList {
@@ -107,14 +109,30 @@ func main() {
 		log.Fatalf("Failed to stat input: %v", err)
 	}
 
-	if fileInfo.IsDir() {
-		// Input is a directory, walk through it
-		walkDirectory(inputPath)
-	} else {
-		// Input is a file, detect language directly
-		detectLanguage(inputPath)
-	}
+	// Create a channel to signal completion
+	done := make(chan bool)
 
-	// Print the percentages of each language
-	printLanguagePercentages()
+	go func() {
+		if fileInfo.IsDir() {
+			// Input is a directory, walk through it
+			walkDirectory(inputPath)
+		} else {
+			// Input is a file, detect language directly
+			detectLanguage(inputPath)
+		}
+
+		// Print the percentages of each language
+		printLanguagePercentages()
+
+		// Signal completion
+		done <- true
+	}()
+
+	// Set a timeout for the operation
+	select {
+	case <-done:
+		// Operation completed within the timeout
+	case <-time.After(300 * time.Millisecond): // Wait for 0.3 seconds
+		// Timeout reached, terminate the program
+	}
 }
