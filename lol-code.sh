@@ -9,13 +9,6 @@ else
     DIRECTORY_NAME=$(basename $(realpath "$FILE_PATH"))
 fi
 
-# Compile the get_language.go file if it doesn't exist
-if [[ ! -f "$HOME/.lol-code/get_language" ]]; then
-    cd $HOME/.lol-code
-    go build $HOME/.lol-code/get_language.go
-    cd - > /dev/null
-fi
-
 LANGUAGE_JSON=$($HOME/.lol-code/get_language "$FILE_PATH")
 LANGUAGE=$(echo "$LANGUAGE_JSON" | jq -r 'to_entries | max_by(.value) | .key')
 ICON="$ICONS_DIR/$LANGUAGE.png"
