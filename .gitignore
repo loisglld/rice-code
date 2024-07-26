@@ -27,3 +27,5 @@ icons_copy/
 bin/
 saturate.sh
 get_language
+convert-to-png.sh
+saturate.py
