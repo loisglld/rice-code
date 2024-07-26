@@ -10,8 +10,10 @@
 
 ```bash
 git clone git@github.com:LOISGALLAUD/rice-code.git ~/.rice-code
+cd ~/.rice-code
 go build ~/.rice-code/get_language.go
-echo "alias code='~/.rice-code/rice-code.sh'" >> ~/.bashrc # or ~/.zshrc
+cd - > /dev/null
+echo "alias code='~/.rice-code/rice-code.sh'" >> ~/.zshrc # or ~/.bashrc
 ```
 
 ## Examples
