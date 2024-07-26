@@ -1,7 +1,7 @@
 #!/bin/bash
 
 FILE_PATH=$1
-ICONS_DIR=$HOME/.lol-code/icons
+ICONS_DIR=$HOME/.rice-code/icons
 
 if [[ "$FILE_PATH" != "." ]]; then
     DIRECTORY_NAME=$(basename "$FILE_PATH")
@@ -9,7 +9,7 @@ else
     DIRECTORY_NAME=$(basename $(realpath "$FILE_PATH"))
 fi
 
-LANGUAGE_JSON=$($HOME/.lol-code/get_language "$FILE_PATH")
+LANGUAGE_JSON=$($HOME/.rice-code/get_language "$FILE_PATH")
 LANGUAGE=$(echo "$LANGUAGE_JSON" | jq -r 'to_entries | max_by(.value) | .key')
 ICON="$ICONS_DIR/$LANGUAGE.png"
 

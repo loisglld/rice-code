@@ -1,4 +1,4 @@
-# lol-code
+# rice-code
 
 ## Pre-requisites
 
@@ -9,9 +9,9 @@
 ## Installation
 
 ```bash
-git clone git@github.com:LOISGALLAUD/lol-code.git ~/.lol-code
-go build ~/.lol-code/get_language.go
-echo "alias code='~/.lol-code/lol-code.sh'" >> ~/.bashrc # or ~/.zshrc
+git clone git@github.com:LOISGALLAUD/rice-code.git ~/.rice-code
+go build ~/.rice-code/get_language.go
+echo "alias code='~/.rice-code/rice-code.sh'" >> ~/.bashrc # or ~/.zshrc
 ```
 
 ## Examples
